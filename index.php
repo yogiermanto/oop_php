@@ -12,9 +12,9 @@ $Db = Db::getInstance();
 // $result = $Db->runQuery($query, $bindValue);
 
 // $result = $Db->getQuery("SELECT * FROM barang");
-$result = $Db->select('nama_barang')
+$result = $Db->select('id_barang, nama_barang')
              ->select('jumlah_barang')
              ->orderBy('jumlah_barang', 'DESC')
-             ->get('barang', );
+             ->getWhere('barang', ['id_barang', '=', '5']);
 
 var_dump($result);

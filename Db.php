@@ -106,7 +106,7 @@ class Db
      * @param string $query
      * @param array $bindValue
      * 
-     * @return Db
+     * @return object
      */
     public function getQuery(string $query, array $bindValue = [])
     {
@@ -122,12 +122,13 @@ class Db
      * 
      * @param string $query
      * 
-     * @return Db
+     * @return object
      */
     public function get(string $tableName, string $condition = "", array $bindValue = [])
     {
         $query = "SELECT {$this->_columnName} FROM {$tableName} {$condition} {$this->_orderBy}";
         $this->_columnName = "*";
+        $this->_orderBy = "";
         return $this->getQuery($query, $bindValue);
     }
 
@@ -171,4 +172,23 @@ class Db
 
         return $this;
     }
+
+    /**
+     * Order By
+     * 
+     * Generate query order by based on parameter $columnName and sortType
+     * 
+     * 
+     * @param string $tableName
+     * @param array $condition
+     * 
+     * @return object
+     */
+    public function getWhere(string $tableName, array $condition)
+    {
+      $queryCondition = "WHERE {$condition[0]} {$condition[1]} ?";
+
+      return $this->get($tableName, $queryCondition, [$condition[2]]);
+    }
+
 }
